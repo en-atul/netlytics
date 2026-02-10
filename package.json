@@ -1,0 +1,48 @@
+{
+  "name": "netlytics",
+  "version": "0.1.0",
+  "description": "Reliable internet connectivity, latency, and connection type for web apps. Works across WiFi, mobile data, and frameworks.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "bun test",
+    "lint": "biome check .",
+    "lint:fix": "biome check . --write",
+    "format": "biome format --write ."
+  },
+  "keywords": [
+    "connectivity",
+    "offline",
+    "online",
+    "internet",
+    "latency",
+    "network",
+    "wifi",
+    "mobile-data",
+    "navigator.onLine"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
