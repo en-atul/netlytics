@@ -29,6 +29,16 @@ if (
   throw new Error("Missing required DOM elements");
 }
 
+// At this point all queried elements are guaranteed to exist.
+const status = statusEl!;
+const statusLabel = statusLabelEl!;
+const connectionTypeNode = connectionTypeEl!;
+const latencyNode = latencyEl!;
+const lastCheckedNode = lastCheckedEl!;
+const checkButton = checkBtn!;
+const latencyButton = latencyBtn!;
+const liveUpdatesCheckbox = liveUpdatesToggle!;
+
 let unwatch: (() => void) | null = null;
 
 function formatConnectionType(type: ConnectionType): string {
@@ -44,22 +54,22 @@ function formatConnectionType(type: ConnectionType): string {
 
 function setStatus(result: ConnectivityResult | "checking") {
   if (result === "checking") {
-    statusEl.dataset.status = "checking";
-    statusLabelEl.textContent = "Checking…";
-    connectionTypeEl.textContent = "—";
-    latencyEl.textContent = "—";
+    status.dataset.status = "checking";
+    statusLabel.textContent = "Checking…";
+    connectionTypeNode.textContent = "—";
+    latencyNode.textContent = "—";
     return;
   }
 
-  statusEl.dataset.status = result.online ? "online" : "offline";
-  statusLabelEl.textContent = result.online ? "Internet connected" : "Internet not connected";
-  connectionTypeEl.textContent = formatConnectionType(result.connectionType);
-  latencyEl.textContent =
+  status.dataset.status = result.online ? "online" : "offline";
+  statusLabel.textContent = result.online ? "Internet connected" : "Internet not connected";
+  connectionTypeNode.textContent = formatConnectionType(result.connectionType);
+  latencyNode.textContent =
     result.latencyMs !== undefined ? `${result.latencyMs} ms` : "—";
 }
 
 function setLastChecked(date: Date) {
-  lastCheckedEl.textContent = date.toLocaleTimeString(undefined, {
+  lastCheckedNode.textContent = date.toLocaleTimeString(undefined, {
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
@@ -68,27 +78,27 @@ function setLastChecked(date: Date) {
 
 async function runCheck() {
   setStatus("checking");
-  checkBtn.disabled = true;
+  checkButton.disabled = true;
   try {
     const result = await checkConnectivity({ timeout: 8000 });
     setStatus(result);
     setLastChecked(new Date());
   } finally {
-    checkBtn.disabled = false;
+    checkButton.disabled = false;
   }
 }
 
 async function runLatency() {
-  const el = latencyEl;
+  const el = latencyNode;
   const prev = el.textContent;
   el.textContent = "Measuring…";
-  latencyBtn.disabled = true;
+  latencyButton.disabled = true;
   try {
     const ms = await measureLatency({ sampleSize: 3, timeout: 5000 });
     el.textContent = ms !== null ? `${ms} ms` : "Failed";
     setLastChecked(new Date());
   } finally {
-    latencyBtn.disabled = false;
+    latencyButton.disabled = false;
     if (el.textContent === "Measuring…") el.textContent = prev ?? "—";
   }
 }
@@ -115,20 +125,20 @@ function stopWatching() {
 }
 
 liveUpdatesToggle.addEventListener("change", () => {
-  if (liveUpdatesToggle.checked) {
+  if (liveUpdatesCheckbox.checked) {
     startWatching();
   } else {
     stopWatching();
   }
 });
 
-checkBtn.addEventListener("click", runCheck);
-latencyBtn.addEventListener("click", runLatency);
+checkButton.addEventListener("click", runCheck);
+latencyButton.addEventListener("click", runLatency);
 
 // Initial check
 runCheck();
 
 // Start live updates (validates online/offline events with a probe)
-if (liveUpdatesToggle.checked) {
+if (liveUpdatesCheckbox.checked) {
   startWatching();
 }
