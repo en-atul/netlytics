@@ -13,7 +13,8 @@ describe("checkConnectivity", () => {
   });
 
   test("returns online when probe succeeds", async () => {
-    globalThis.fetch = mock(() => Promise.resolve({ ok: true } as Response));
+    (globalThis as unknown as { fetch: (input: RequestInfo | URL) => Promise<Response> }).fetch =
+      mock(() => Promise.resolve({ ok: true } as Response));
     const result = await checkConnectivity({
       probeUrls: ["https://example.com/probe"],
       timeout: 1000,
@@ -23,7 +24,8 @@ describe("checkConnectivity", () => {
   });
 
   test("returns offline when probe fails", async () => {
-    globalThis.fetch = mock(() => Promise.reject(new Error("Network error")));
+    (globalThis as unknown as { fetch: (input: RequestInfo | URL) => Promise<Response> }).fetch =
+      mock(() => Promise.reject(new Error("Network error")));
     const result = await checkConnectivity({
       probeUrls: ["https://example.com/probe"],
       timeout: 100,
@@ -33,10 +35,11 @@ describe("checkConnectivity", () => {
 
   test("uses custom probe URLs", async () => {
     const customUrl = "https://my-cdn.com/ping";
-    globalThis.fetch = mock(() => Promise.resolve({ ok: true } as Response));
+    const fetchMock = mock(() => Promise.resolve({ ok: true } as Response));
+    (globalThis as unknown as { fetch: (input: RequestInfo | URL) => Promise<Response> }).fetch =
+      fetchMock;
     await checkConnectivity({ probeUrls: [customUrl], timeout: 100 });
-    expect((globalThis.fetch as ReturnType<typeof mock>).mock.calls[0]?.[0]).toContain(
-      "my-cdn.com"
-    );
+    const firstCallUrl = String((fetchMock.mock.calls[0] as unknown as [string] | undefined)?.[0] ?? "");
+    expect(firstCallUrl).toContain("my-cdn.com");
   });
 });

@@ -5,9 +5,8 @@ describe("measureLatency", () => {
   const originalFetch = globalThis.fetch;
 
   beforeEach(() => {
-    globalThis.fetch = mock(() =>
-      Promise.resolve({ ok: true } as Response)
-    );
+    (globalThis as unknown as { fetch: (input: RequestInfo | URL) => Promise<Response> }).fetch =
+      mock(() => Promise.resolve({ ok: true } as Response));
   });
 
   afterEach(() => {
@@ -25,7 +24,8 @@ describe("measureLatency", () => {
   });
 
   test("returns null when all requests fail", async () => {
-    globalThis.fetch = mock(() => Promise.reject(new Error("fail")));
+    (globalThis as unknown as { fetch: (input: RequestInfo | URL) => Promise<Response> }).fetch =
+      mock(() => Promise.reject(new Error("fail")));
     const result = await measureLatency({ sampleSize: 2, timeout: 50 });
     expect(result).toBeNull();
   });

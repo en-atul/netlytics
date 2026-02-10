@@ -22,12 +22,21 @@ describe("getConnectionType", () => {
     Object.defineProperty(globalThis, "navigator", { value: originalNavigator, writable: true });
   });
 
-  test("returns cellular for 4g", () => {
+  test("returns cellular when connection.type is cellular", () => {
     Object.defineProperty(globalThis, "navigator", {
-      value: { connection: { type: "4g" } },
+      value: { connection: { type: "cellular" } },
       writable: true,
     });
     expect(getConnectionType()).toBe("cellular");
+    Object.defineProperty(globalThis, "navigator", { value: originalNavigator, writable: true });
+  });
+
+  test("returns unknown when only effectiveType is 4g (desktop speed hint)", () => {
+    Object.defineProperty(globalThis, "navigator", {
+      value: { connection: { effectiveType: "4g" } },
+      writable: true,
+    });
+    expect(getConnectionType()).toBe("unknown");
     Object.defineProperty(globalThis, "navigator", { value: originalNavigator, writable: true });
   });
 
