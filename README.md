@@ -4,11 +4,11 @@
 <div align="center">Reliable internet connectivity, latency, and connection type for web apps.<br />Validates with real HTTP probes — never trust navigator.onLine alone.</div>
 <br />
 <div align="center">
-<a href="https://netlytics.vercel.app">Website</a>
+<a href="https://netlytics.vercel.app">Demo/Usage</a>
 <span> · </span>
-<a href="https://github.com/your-org/netlytics">GitHub</a>
+<a href="https://github.com/en-atul/netlytics">GitHub</a>
 <span> · </span>
-<a href="https://www.npmjs.com/package/netlytics">npm</a>
+<a href="https://www.npmjs.com/package/netlytics">Npm</a>
 </div>
 
 ## Introduction
@@ -152,6 +152,14 @@ Netlytics works with all popular JavaScript frameworks and vanilla JavaScript:
 | ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | React ✔                                                                                                                                         | Vue ✔                                                                                                                                       | Angular ✔                                                                                                                                            | Svelte ✔                                                                                                                                          | Vanilla JS ✔                                                                                                                                         |
 
+## Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Security
+
+To report a security vulnerability, please see [SECURITY.md](SECURITY.md).
+
 ## License
 
-MIT License
+MIT License - see [LICENSE](LICENSE) file for details.

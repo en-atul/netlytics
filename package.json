@@ -22,7 +22,10 @@
     "test": "bun test",
     "lint": "biome check .",
     "lint:fix": "biome check . --write",
-    "format": "biome format --write ."
+    "format": "biome format --write .",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "bun run build && changeset publish"
   },
   "keywords": [
     "connectivity",
@@ -39,6 +42,7 @@
   "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "@changesets/cli": "^2.29.8",
     "bun-types": "^1.3.9",
     "tsup": "^8.3.5",
     "typescript": "^5.7.2"
