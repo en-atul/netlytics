@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Netlytics — Try it</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main>
+      <h1>Netlytics</h1>
+      <p class="subtitle">See how connectivity detection works before you install.</p>
+      <div class="card" data-status="checking">
+        <div class="status-row">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span class="status-label" data-status-label>Checking…</span>
+        </div>
+        <dl class="meta-grid">
+          <dt>Connection type</dt>
+          <dd data-connection-type>—</dd>
+          <dt>Latency</dt>
+          <dd data-latency>—</dd>
+          <dt>Last checked</dt>
+          <dd data-last-checked>—</dd>
+        </dl>
+        <div class="actions">
+          <button type="button" class="btn btn-primary" data-check-again>Check again</button>
+          <button type="button" class="btn" data-measure-latency>Measure latency</button>
+        </div>
+      </div>
+      <p class="footer">
+        <a href="https://github.com/your-org/netlytics" target="_blank" rel="noopener">GitHub</a>
+        ·
+        <a href="https://www.npmjs.com/package/netlytics" target="_blank" rel="noopener">npm</a>
+      </p>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
