@@ -1,4 +1,3 @@
-# Netlytics
 
 ![Netlytics](assets/netlytics.avif)
 
