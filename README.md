@@ -1,5 +1,7 @@
 # Netlytics
 
+![Netlytics](assets/netlytics.avif)
+
 Reliable **internet connectivity**, **latency**, and **connection type** (WiFi / mobile data) for web apps. Built to fix the common problem where libraries report "not connected" even when the user is online.
 
 - **Accurate connectivity** — Validates with real HTTP probes, not just `navigator.onLine`
