@@ -47,3 +47,18 @@ export interface LatencyOptions {
  * Options for the main Netlytics instance.
  */
 export interface NetlyticsOptions extends ConnectivityOptions, LatencyOptions {}
+
+/**
+ * Options for watchConnectivity. Both "online" and "offline" events
+ * are validated with a network probe; we never rely only on navigator.onLine.
+ */
+export interface WatchConnectivityOptions extends ConnectivityOptions {
+  /** When true (default), listen to online/offline and validate with a probe. When false, no listeners. */
+  observe?: boolean;
+  /** Debounce delay in ms before probing after an "online" event. */
+  debounceMs?: number;
+  /** Timeout in ms for the probe when validating an "offline" event (faster than default). */
+  offlineProbeTimeoutMs?: number;
+  /** Called when a probe is about to run (e.g. to show "Checking…" in the UI). */
+  onChecking?: () => void;
+}

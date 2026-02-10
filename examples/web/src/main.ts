@@ -2,6 +2,7 @@ import "./style.css";
 import {
   checkConnectivity,
   measureLatency,
+  watchConnectivity,
   type ConnectivityResult,
   type ConnectionType,
 } from "netlytics";
@@ -13,6 +14,7 @@ const latencyEl = document.querySelector<HTMLElement>("[data-latency]");
 const lastCheckedEl = document.querySelector<HTMLElement>("[data-last-checked]");
 const checkBtn = document.querySelector<HTMLButtonElement>("[data-check-again]");
 const latencyBtn = document.querySelector<HTMLButtonElement>("[data-measure-latency]");
+const liveUpdatesToggle = document.querySelector<HTMLInputElement>("[data-live-updates]");
 
 if (
   !statusEl ||
@@ -21,10 +23,13 @@ if (
   !latencyEl ||
   !lastCheckedEl ||
   !checkBtn ||
-  !latencyBtn
+  !latencyBtn ||
+  !liveUpdatesToggle
 ) {
   throw new Error("Missing required DOM elements");
 }
+
+let unwatch: (() => void) | null = null;
 
 function formatConnectionType(type: ConnectionType): string {
   const labels: Record<ConnectionType, string> = {
@@ -88,8 +93,42 @@ async function runLatency() {
   }
 }
 
+function startWatching() {
+  unwatch?.();
+  unwatch = watchConnectivity(
+    (result) => {
+      setStatus(result);
+      setLastChecked(new Date());
+    },
+    {
+      observe: true,
+      timeout: 8000,
+      offlineProbeTimeoutMs: 2000,
+      onChecking: () => setStatus("checking"),
+    }
+  );
+}
+
+function stopWatching() {
+  unwatch?.();
+  unwatch = null;
+}
+
+liveUpdatesToggle.addEventListener("change", () => {
+  if (liveUpdatesToggle.checked) {
+    startWatching();
+  } else {
+    stopWatching();
+  }
+});
+
 checkBtn.addEventListener("click", runCheck);
 latencyBtn.addEventListener("click", runLatency);
 
 // Initial check
 runCheck();
+
+// Start live updates (validates online/offline events with a probe)
+if (liveUpdatesToggle.checked) {
+  startWatching();
+}
