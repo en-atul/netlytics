@@ -144,6 +144,13 @@ A live demo is available to test Netlytics in the browser before installing:
 
 - **[Demo (Vercel)](https://netlytics.vercel.app)** — See connectivity detection, connection type, and latency in real time
 
+## Support
+
+Netlytics works with all popular JavaScript frameworks and vanilla JavaScript:
+
+| <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" width="48px" height="48px" alt="React logo"> | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original.svg" width="48px" height="48px" alt="Vue logo"> | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/angularjs/angularjs-original.svg" width="48px" height="48px" alt="Angular logo"> | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/svelte/svelte-original.svg" width="48px" height="48px" alt="Svelte logo"> | <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" width="48px" height="48px" alt="JavaScript logo"> |
+| ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| React ✔                                                                                                                                         | Vue ✔                                                                                                                                       | Angular ✔                                                                                                                                            | Svelte ✔                                                                                                                                          | Vanilla JS ✔                                                                                                                                         |
 
 ## License
 
