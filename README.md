@@ -1,4 +1,3 @@
-
 ![Netlytics](assets/netlytics.avif)
 
 Reliable **internet connectivity**, **latency**, and **connection type** (WiFi / mobile data) for web apps. Built to fix the common problem where libraries report "not connected" even when the user is online.
@@ -20,25 +19,33 @@ pnpm add netlytics
 ## Quick start
 
 ```ts
-import { checkConnectivity, getConnectionType, measureLatency, watchConnectivity } from "netlytics";
+import {
+  checkConnectivity,
+  getConnectionType,
+  measureLatency,
+  watchConnectivity,
+} from "netlytics";
 
 // Is the user actually online? (probe-based, not just navigator.onLine)
 const result = await checkConnectivity();
-console.log(result.online);        // true | false
+console.log(result.online); // true | false
 console.log(result.connectionType); // "wifi" | "cellular" | "unknown" | ...
-console.log(result.latencyMs);      // optional RTT from probe
+console.log(result.latencyMs); // optional RTT from probe
 
 // Connection type hint (when supported by browser)
-const type = getConnectionType();   // "wifi" | "cellular" | "ethernet" | "unknown"
+const type = getConnectionType(); // "wifi" | "cellular" | "ethernet" | "unknown"
 
 // Latency in ms
 const latency = await measureLatency();
-console.log(latency);               // number | null
+console.log(latency); // number | null
 
 // Live updates: both "online" and "offline" events are validated with a probe (never trust navigator.onLine alone)
-const unsubscribe = watchConnectivity((result) => {
-  console.log(result.online ? "Connected" : "Disconnected");
-}, { observe: true });              // default; set observe: false to disable
+const unsubscribe = watchConnectivity(
+  (result) => {
+    console.log(result.online ? "Connected" : "Disconnected");
+  },
+  { observe: true }
+); // default; set observe: false to disable
 // later: unsubscribe();
 ```
 
@@ -97,7 +104,7 @@ Options (all optional):
 
 Check the hosted demo/usage site (recommended):
 
-- **Demo (Vercel):** [`https://netlytics.vercel.com`](https://netlytics.vercel.com)
+- **Demo (Vercel):** [`https://netlytics.vercel.app`](https://netlytics.vercel.app)
 
 ## License
 
