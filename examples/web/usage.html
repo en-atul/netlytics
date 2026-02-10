@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Netlytics — Usage Examples</title>
+    <link rel="icon" type="image/x-icon" href="/src/logo.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="usage-page">
+      <img src="/src/logo.avif" alt="Netlytics logo" class="logo" />
+      <h1>Usage Examples</h1>
+      <p class="subtitle">See how to use Netlytics in your favorite framework.</p>
+      <div class="card usage-section">
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="react">React</button>
+          <button class="tab-btn" data-tab="vue">Vue</button>
+          <button class="tab-btn" data-tab="angular">Angular</button>
+          <button class="tab-btn" data-tab="svelte">Svelte</button>
+          <button class="tab-btn" data-tab="js">JS</button>
+        </div>
+        <div class="tab-content active" data-content="react">
+          <pre><code>import { useEffect, useState } from 'react';
+import { checkConnectivity, watchConnectivity } from 'netlytics';
+
+function App() {
+  const [online, setOnline] = useState(true);
+
+  useEffect(() => {
+    checkConnectivity().then(result => {
+      setOnline(result.online);
+    });
+
+    const unsubscribe = watchConnectivity(
+      (result) => setOnline(result.online),
+      { observe: true }
+    );
+
+    return unsubscribe;
+  }, []);
+
+  return &lt;div&gt;{online ? 'Online' : 'Offline'}&lt;/div&gt;;
+}</code></pre>
+        </div>
+        <div class="tab-content" data-content="vue">
+          <pre><code>&lt;script setup&gt;
+import { ref, onMounted, onUnmounted } from 'vue';
+import { checkConnectivity, watchConnectivity } from 'netlytics';
+
+const online = ref(true);
+let unsubscribe = null;
+
+onMounted(async () => {
+  const result = await checkConnectivity();
+  online.value = result.online;
+
+  unsubscribe = watchConnectivity(
+    (result) => online.value = result.online,
+    { observe: true }
+  );
+});
+
+onUnmounted(() => {
+  unsubscribe?.();
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div&gt;{{ online ? 'Online' : 'Offline' }}&lt;/div&gt;
+&lt;/template&gt;</code></pre>
+        </div>
+        <div class="tab-content" data-content="angular">
+          <pre><code>import { Component, OnInit, OnDestroy } from '@angular/core';
+import { checkConnectivity, watchConnectivity } from 'netlytics';
+
+@Component({
+  selector: 'app-root',
+  template: '&lt;div&gt;{{ online ? "Online" : "Offline" }}&lt;/div&gt;'
+})
+export class AppComponent implements OnInit, OnDestroy {
+  online = true;
+  private unsubscribe?: () => void;
+
+  async ngOnInit() {
+    const result = await checkConnectivity();
+    this.online = result.online;
+
+    this.unsubscribe = watchConnectivity(
+      (result) => this.online = result.online,
+      { observe: true }
+    );
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe?.();
+  }
+}</code></pre>
+        </div>
+        <div class="tab-content" data-content="svelte">
+          <pre><code>&lt;script&gt;
+  import { onMount, onDestroy } from 'svelte';
+  import { checkConnectivity, watchConnectivity } from 'netlytics';
+
+  let online = true;
+  let unsubscribe = null;
+
+  onMount(async () => {
+    const result = await checkConnectivity();
+    online = result.online;
+
+    unsubscribe = watchConnectivity(
+      (result) => online = result.online,
+      { observe: true }
+    );
+  });
+
+  onDestroy(() => {
+    unsubscribe?.();
+  });
+&lt;/script&gt;
+
+&lt;div&gt;{online ? 'Online' : 'Offline'}&lt;/div&gt;</code></pre>
+        </div>
+        <div class="tab-content" data-content="js">
+          <pre><code>import { checkConnectivity, watchConnectivity } from 'netlytics';
+
+// One-time check
+const result = await checkConnectivity();
+console.log(result.online); // true | false
+console.log(result.connectionType); // "wifi" | "cellular" | ...
+console.log(result.latencyMs); // number | undefined
+
+// Live updates
+const unsubscribe = watchConnectivity(
+  (result) => {
+    document.body.textContent = result.online ? 'Online' : 'Offline';
+  },
+  { observe: true }
+);
+
+// Cleanup
+unsubscribe();</code></pre>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="/" class="btn btn-primary">← Back to Demo</a>
+      </div>
+      <p class="footer">
+        <a href="https://github.com/en-atul/netlytics" target="_blank" rel="noopener">GitHub</a>
+        ·
+        <a href="https://www.npmjs.com/package/netlytics" target="_blank" rel="noopener">npm</a>
+      </p>
+    </main>
+    <script type="module" src="/src/usage.ts"></script>
+  </body>
+</html>
