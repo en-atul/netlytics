@@ -1,14 +1,14 @@
 :root {
-  --bg: #0d0f12;
-  --surface: #16191e;
-  --border: #2a2f37;
-  --text: #e6e9ef;
-  --text-muted: #8b919e;
-  --accent: #6ee7b7;
-  --accent-dim: #34d399;
-  --online: #6ee7b7;
-  --offline: #f87171;
-  --checking: #fbbf24;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --border: #e5e7eb;
+  --text: #111827;
+  --text-muted: #6b7280;
+  --accent: #000000;
+  --accent-dim: #111827;
+  --online: #16a34a;
+  --offline: #ef4444;
+  --checking: #f59e0b;
   --radius: 12px;
   --font-sans: "DM Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
@@ -41,6 +41,14 @@ body {
 main {
   width: 100%;
   max-width: 420px;
+}
+
+.logo {
+  display: block;
+  width: 260px;
+  max-width: 80vw;
+  height: auto;
+  margin: 0 auto 0.75rem;
 }
 
 h1 {
