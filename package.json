@@ -36,10 +36,23 @@
     "network",
     "wifi",
     "mobile-data",
-    "navigator.onLine"
+    "navigator.onLine",
+    "react-detect-offline",
+    "react-native-community/netinfo"
   ],
-  "author": "",
+  "author": {
+    "name": "Atul",
+    "url": "https://github.com/en-atul"
+  },
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/en-atul/netlytics.git"
+  },
+  "homepage": "https://netlytics.vercel.app",
+  "bugs": {
+    "url": "https://github.com/en-atul/netlytics/issues"
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@changesets/cli": "^2.29.8",
@@ -48,6 +61,6 @@
     "typescript": "^5.7.2"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   }
 }
