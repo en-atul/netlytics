@@ -19,7 +19,7 @@ pnpm add netlytics
 ## Quick start
 
 ```ts
-import { checkConnectivity, getConnectionType, measureLatency } from "netlytics";
+import { checkConnectivity, getConnectionType, measureLatency, watchConnectivity } from "netlytics";
 
 // Is the user actually online? (probe-based, not just navigator.onLine)
 const result = await checkConnectivity();
@@ -33,6 +33,12 @@ const type = getConnectionType();   // "wifi" | "cellular" | "ethernet" | "unkno
 // Latency in ms
 const latency = await measureLatency();
 console.log(latency);               // number | null
+
+// Live updates: both "online" and "offline" events are validated with a probe (never trust navigator.onLine alone)
+const unsubscribe = watchConnectivity((result) => {
+  console.log(result.online ? "Connected" : "Disconnected");
+}, { observe: true });              // default; set observe: false to disable
+// later: unsubscribe();
 ```
 
 ## Why Netlytics?
@@ -74,14 +80,23 @@ Options:
 - `timeout` — Timeout per request (default: `5000`)
 - `sampleSize` — Number of samples (default: `3`)
 
-## Development
+### `watchConnectivity(callback, options?)`
 
-```bash
-bun install
-bun run build
-bun test
-bun run lint
-```
+Subscribes to `online` / `offline` events and **validates each with a network probe** (never relies only on `navigator.onLine`). Returns an `unsubscribe()` function.
+
+Options (all optional):
+
+- `observe` — When `true` (default), listen and validate. When `false`, no listeners (manual checks only).
+- `debounceMs` — Delay before probing after an "online" event (default: `400`).
+- `offlineProbeTimeoutMs` — Timeout when validating an "offline" event (default: `2000`).
+- `onChecking` — Called when a probe is about to run (e.g. to show "Checking…").
+- Plus all `ConnectivityOptions` (`timeout`, `probeUrls`, etc.).
+
+## Try it
+
+Check the hosted demo/usage site (recommended):
+
+- **Demo (Vercel):** [`https://netlytics.vercel.com`](https://netlytics.vercel.com)
 
 ## License
 
