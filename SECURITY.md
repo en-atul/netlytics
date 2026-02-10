@@ -13,7 +13,7 @@ We actively support the following versions of Netlytics with security updates:
 We take security vulnerabilities seriously. If you discover a security vulnerability, please follow these steps:
 
 1. **Do not** open a public GitHub issue
-2. Email security details to: [your-email@example.com] (replace with actual email)
+2. Email security details to: [security@netlytics.com] (replace with actual email)
 3. Include:
    - Description of the vulnerability
    - Steps to reproduce

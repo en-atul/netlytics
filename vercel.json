@@ -2,5 +2,15 @@
   "buildCommand": "bun run build && cd demo && bun install && bun run build",
   "outputDirectory": "demo/dist",
   "installCommand": "bun install",
-  "framework": null
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/usage",
+      "destination": "/usage.html"
+    },
+    {
+      "source": "/usage.html",
+      "destination": "/usage.html"
+    }
+  ]
 }
