@@ -3,7 +3,7 @@ import {
   DEFAULT_PROBE_URLS,
   DEFAULT_REQUIRED_SUCCESSES,
 } from "./constants";
-import { getConnectionType } from "./connection-type";
+import { getConnectionType, getNetworkQuality } from "./connection-type";
 import type { ConnectivityOptions, ConnectivityResult } from "./types";
 
 function probeUrl(url: string, timeoutMs: number): Promise<{ ok: boolean; latencyMs?: number }> {
@@ -44,6 +44,7 @@ export async function checkConnectivity(
     : [...DEFAULT_PROBE_URLS];
 
   const connectionType = getConnectionType();
+  const networkQuality = getNetworkQuality();
   const results = await Promise.all(urls.map((url) => probeUrl(url, timeout)));
 
   const succeeded = results.filter((r) => r.ok);
@@ -53,6 +54,7 @@ export async function checkConnectivity(
   return {
     online,
     connectionType,
+    networkQuality,
     ...(latencyMs !== undefined && { latencyMs }),
   };
 }

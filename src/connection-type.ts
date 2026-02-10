@@ -1,4 +1,4 @@
-import type { ConnectionType } from "./types";
+import type { ConnectionType, NetworkQuality } from "./types";
 
 /**
  * Network Information API (navigator.connection) is not available in all browsers.
@@ -43,13 +43,27 @@ export function getConnectionType(): ConnectionType {
   if (!conn) return "unknown";
 
   const type = (conn.type ?? "").toLowerCase();
-  const effectiveType = (conn.effectiveType ?? "").toLowerCase();
 
-  if (type === "wifi" || effectiveType === "wifi") return "wifi";
-  if (type === "ethernet" || effectiveType === "ethernet") return "ethernet";
-  if (type === "none" || effectiveType === "none") return "none";
+  if (type === "wifi") return "wifi";
+  if (type === "ethernet") return "ethernet";
+  if (type === "none") return "none";
   // Only report "cellular" when type explicitly says so. On desktop Chrome, effectiveType
   // is often "4g" as a speed/quality hint — don't treat that as "Mobile data".
   if (type === "cellular") return "cellular";
   return "unknown";
 }
+
+export function getNetworkQuality(): NetworkQuality {
+  const conn = getConnection();
+  if (!conn) return "unknown";
+
+  const quality = (conn.effectiveType ?? "").toLowerCase();
+
+  if (quality === "slow-2g") return "slow-2g";
+  if (quality === "2g") return "2g";
+  if (quality === "3g") return "3g";
+  if (quality === "4g") return "4g";
+  return "unknown";
+}
+
+

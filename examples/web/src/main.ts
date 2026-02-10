@@ -5,11 +5,13 @@ import {
   watchConnectivity,
   type ConnectivityResult,
   type ConnectionType,
+  type NetworkQuality,
 } from "netlytics";
 
 const statusEl = document.querySelector<HTMLElement>("[data-status]");
 const statusLabelEl = document.querySelector<HTMLElement>("[data-status-label]");
 const connectionTypeEl = document.querySelector<HTMLElement>("[data-connection-type]");
+const networkQualityEl = document.querySelector<HTMLElement>("[data-network-quality]");
 const latencyEl = document.querySelector<HTMLElement>("[data-latency]");
 const lastCheckedEl = document.querySelector<HTMLElement>("[data-last-checked]");
 const checkBtn = document.querySelector<HTMLButtonElement>("[data-check-again]");
@@ -20,6 +22,7 @@ if (
   !statusEl ||
   !statusLabelEl ||
   !connectionTypeEl ||
+  !networkQualityEl ||
   !latencyEl ||
   !lastCheckedEl ||
   !checkBtn ||
@@ -33,6 +36,7 @@ if (
 const status = statusEl!;
 const statusLabel = statusLabelEl!;
 const connectionTypeNode = connectionTypeEl!;
+const networkQualityNode = networkQualityEl!;
 const latencyNode = latencyEl!;
 const lastCheckedNode = lastCheckedEl!;
 const checkButton = checkBtn!;
@@ -43,7 +47,7 @@ let unwatch: (() => void) | null = null;
 
 function formatConnectionType(type: ConnectionType): string {
   const labels: Record<ConnectionType, string> = {
-    wifi: "Wi‑Fi",
+    wifi: "Wi-Fi",
     cellular: "Mobile data",
     ethernet: "Ethernet",
     none: "None",
@@ -52,11 +56,23 @@ function formatConnectionType(type: ConnectionType): string {
   return labels[type] ?? type;
 }
 
+function formatNetworkQuality(quality: NetworkQuality): string {
+  const labels: Record<NetworkQuality, string> = {
+    "slow-2g": "Slow 2G",
+    "2g": "2G",
+    "3g": "3G",
+    "4g": "4G",
+    unknown: "Unknown",
+  };
+  return labels[quality] ?? quality;
+}
+
 function setStatus(result: ConnectivityResult | "checking") {
   if (result === "checking") {
     status.dataset.status = "checking";
     statusLabel.textContent = "Checking…";
     connectionTypeNode.textContent = "—";
+    networkQualityNode.textContent = "—";
     latencyNode.textContent = "—";
     return;
   }
@@ -64,6 +80,7 @@ function setStatus(result: ConnectivityResult | "checking") {
   status.dataset.status = result.online ? "online" : "offline";
   statusLabel.textContent = result.online ? "Internet connected" : "Internet not connected";
   connectionTypeNode.textContent = formatConnectionType(result.connectionType);
+  networkQualityNode.textContent = formatNetworkQuality(result.networkQuality);
   latencyNode.textContent =
     result.latencyMs !== undefined ? `${result.latencyMs} ms` : "—";
 }

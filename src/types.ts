@@ -4,6 +4,14 @@
  */
 export type ConnectionType = "wifi" | "cellular" | "ethernet" | "none" | "unknown";
 
+
+/**
+ * Network quality from the Network Information API when available.
+ * Do not use as sole source of truth for "internet active" — always validate with probes.
+ */
+export type NetworkQuality = "slow-2g" | "2g" | "3g" | "4g" | "unknown";
+
+
 /**
  * High-level connectivity status for UI prompts.
  */
@@ -17,6 +25,8 @@ export interface ConnectivityResult {
   online: boolean;
   /** Best-effort connection type; may be unknown on unsupported browsers. */
   connectionType: ConnectionType;
+  /** Best-effort network quality; may be unknown on unsupported browsers. */
+  networkQuality: NetworkQuality;
   /** Latency in ms to the probe that succeeded, if measured. */
   latencyMs?: number;
 }

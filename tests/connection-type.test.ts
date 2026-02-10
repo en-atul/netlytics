@@ -1,4 +1,4 @@
-import { describe, expect, mock, test } from "bun:test";
+import { describe, expect, test } from "bun:test";
 import { getConnectionType } from "../src/connection-type";
 
 describe("getConnectionType", () => {

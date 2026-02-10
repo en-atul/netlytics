@@ -4,7 +4,7 @@
  */
 
 export { checkConnectivity } from "./connectivity";
-export { getConnectionType } from "./connection-type";
+export { getConnectionType, getNetworkQuality } from "./connection-type";
 export { measureLatency } from "./latency";
 export { watchConnectivity } from "./watch-connectivity";
 export {
@@ -18,6 +18,7 @@ export {
 } from "./constants";
 export type {
   ConnectionType,
+  NetworkQuality,
   ConnectivityStatus,
   ConnectivityResult,
   ConnectivityOptions,
