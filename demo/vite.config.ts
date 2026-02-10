@@ -9,12 +9,14 @@ export default defineConfig({
   resolve: {
     alias: {
       // Point directly to index.ts in source directory (one level up from demo)
+      // This alias takes precedence over the linked package in node_modules
       netlytics: path.resolve(__dirname, "../src/index.ts"),
     },
     extensions: [".ts", ".js", ".tsx", ".jsx"],
   },
   optimizeDeps: {
-    include: ["netlytics"],
+    // Exclude netlytics from pre-bundling since we're using source files via alias
+    exclude: ["netlytics"],
   },
   build: {
     outDir: "dist",

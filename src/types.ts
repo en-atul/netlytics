@@ -56,7 +56,7 @@ export interface LatencyOptions {
 /**
  * Options for the main Netlytics instance.
  */
-export interface NetlyticsOptions extends ConnectivityOptions, LatencyOptions {}
+export interface NetlyticsOptions extends ConnectivityOptions, LatencyOptions { }
 
 /**
  * Options for watchConnectivity. Both "online" and "offline" events
@@ -71,4 +71,13 @@ export interface WatchConnectivityOptions extends ConnectivityOptions {
   offlineProbeTimeoutMs?: number;
   /** Called when a probe is about to run (e.g. to show "Checking…" in the UI). */
   onChecking?: () => void;
+  /** Polling interval in ms as a fallback when events don't fire (e.g. mobile devices). Set to 0 to disable. Default: 10000 (10 seconds). */
+  pollIntervalMs?: number;
+  /**
+   * Fallback polling for unreliable `online` / `offline` events (mobile browsers).
+   * Enabled by default; required on mobile, tablet, and iPadOS devices.
+   */
+  pollingEnabled?: boolean;
+  /** When true (default), listen to page visibility change and validate connectivity. When false, don't listen. */
+  visibilityChange?: boolean;
 }

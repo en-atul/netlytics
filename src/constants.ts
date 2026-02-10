@@ -15,3 +15,5 @@ export const DEFAULT_LATENCY_SAMPLE_SIZE = 3;
 export const DEFAULT_OFFLINE_PROBE_TIMEOUT_MS = 2000;
 /** Debounce delay before probing after an "online" event. */
 export const DEFAULT_DEBOUNCE_MS = 400;
+/** Polling interval as fallback when events don't fire (e.g. mobile devices). */
+export const DEFAULT_POLL_INTERVAL_MS = 10000;
