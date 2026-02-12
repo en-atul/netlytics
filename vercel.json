@@ -1,15 +1,6 @@
 {
-  "buildCommand": "bun run build && cd demo && bun install && bun run build",
-  "installCommand": "bun install",
+  "buildCommand": "cd .. && bun run build && bun install && bun run build",
+  "installCommand": "cd .. && bun install",
   "framework": "nextjs",
-  "rewrites": [
-    {
-      "source": "/usage",
-      "destination": "/usage.html"
-    },
-    {
-      "source": "/usage.html",
-      "destination": "/usage.html"
-    }
-  ]
+  "rootDirectory": "demo"
 }
