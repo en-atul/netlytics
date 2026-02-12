@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Reference — Netlytics</title>
+    <link rel="icon" type="image/x-icon" href="/src/logo.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="usage-body">
+    <div class="usage-layout">
+      <aside class="sidebar" aria-label="Navigation">
+        <a href="/" class="sidebar-logo" aria-label="Netlytics home">
+          <img src="/src/logo.avif" alt="" width="140" height="32" />
+        </a>
+        <nav class="sidebar-nav">
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Start</span>
+            <ul class="sidebar-links">
+              <li><a href="/introduction.html" class="sidebar-link">Introduction</a></li>
+              <li><a href="/quick-start.html" class="sidebar-link">Quick Start</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Reference</span>
+            <ul class="sidebar-links">
+              <li><a href="/api.html" class="sidebar-link active">API</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Usage</span>
+            <ul class="sidebar-links sidebar-links-nested">
+              <li><a href="/usage.html#react" class="sidebar-link">React</a></li>
+              <li><a href="/usage.html#vue" class="sidebar-link">Vue</a></li>
+              <li><a href="/usage.html#angular" class="sidebar-link">Angular</a></li>
+              <li><a href="/usage.html#svelte" class="sidebar-link">Svelte</a></li>
+              <li><a href="/usage.html#js" class="sidebar-link">Vanilla JS</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Demo</span>
+            <ul class="sidebar-links">
+              <li><a href="/" class="sidebar-link">Try it</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+      <div class="usage-content-wrap">
+      <main class="usage-page usage-content">
+        <h1>API Reference</h1>
+        <p class="subtitle">Functions and types exported by the Netlytics package.</p>
+
+        <section class="doc-section" id="checkConnectivity">
+          <h2><code>checkConnectivity(options?)</code></h2>
+          <p>Checks if the device has reachable internet by probing one or more URLs. Does not rely on <code>navigator.onLine</code> alone. Returns <code>Promise&lt;ConnectivityResult&gt;</code>.</p>
+          <h3>Returns — <code>ConnectivityResult</code></h3>
+          <ul>
+            <li><code>online: boolean</code> — Internet reachable (at least one probe succeeded).</li>
+            <li><code>connectionType: ConnectionType</code> — <code>"wifi"</code> | <code>"cellular"</code> | <code>"ethernet"</code> | <code>"none"</code> | <code>"unknown"</code>.</li>
+            <li><code>networkQuality: NetworkQuality</code> — <code>"slow-2g"</code> | <code>"2g"</code> | <code>"3g"</code> | <code>"4g"</code> | <code>"unknown"</code>.</li>
+            <li><code>latencyMs?: number</code> — RTT of the first successful probe, if any.</li>
+          </ul>
+          <h3>Options — <code>ConnectivityOptions</code></h3>
+          <ul>
+            <li><code>timeout?: number</code> — Timeout in ms per probe (default: <code>5000</code>).</li>
+            <li><code>requiredSuccesses?: number</code> — How many probes must succeed (default: <code>1</code>).</li>
+            <li><code>probeUrls?: string[]</code> — Custom URLs (must support CORS).</li>
+          </ul>
+        </section>
+
+        <section class="doc-section" id="watchConnectivity">
+          <h2><code>watchConnectivity(callback, options?)</code></h2>
+          <p>Subscribes to online/offline events and validates each with a network probe. On mobile, also uses polling and visibility-change when events don't fire. Returns an <code>unsubscribe()</code> function.</p>
+          <h3>Parameters</h3>
+          <ul>
+            <li><code>callback: (result: ConnectivityResult) =&gt; void</code> — Called when connectivity state changes (after probe).</li>
+          </ul>
+          <h3>Options — <code>WatchConnectivityOptions</code></h3>
+          <ul>
+            <li><code>observe?: boolean</code> — Listen and validate (default: <code>true</code>).</li>
+            <li><code>debounceMs?: number</code> — Delay before probing after "online" (default: <code>400</code>).</li>
+            <li><code>offlineProbeTimeoutMs?: number</code> — Timeout for "offline" probe (default: <code>2000</code>).</li>
+            <li><code>onChecking?: () =&gt; void</code> — Called when a probe is about to run.</li>
+            <li><code>pollIntervalMs?: number</code> — Polling fallback in ms (default: <code>10000</code>). Set <code>0</code> to disable.</li>
+            <li><code>pollingEnabled?: boolean</code> — Enable polling fallback (default: <code>true</code>).</li>
+            <li><code>visibilityChange?: boolean</code> — Re-check when page becomes visible (default: <code>true</code>).</li>
+            <li>Plus all <code>ConnectivityOptions</code> (<code>timeout</code>, <code>probeUrls</code>, etc.).</li>
+          </ul>
+        </section>
+
+        <section class="doc-section" id="measureLatency">
+          <h2><code>measureLatency(options?)</code></h2>
+          <p>Measures round-trip time (RTT) in ms by sampling requests to a reliable endpoint. Returns <code>Promise&lt;number | null&gt;</code> — average RTT or <code>null</code> if all samples failed.</p>
+          <h3>Options — <code>LatencyOptions</code></h3>
+          <ul>
+            <li><code>timeout?: number</code> — Timeout per request (default: <code>5000</code>).</li>
+            <li><code>sampleSize?: number</code> — Number of samples (default: <code>3</code>).</li>
+          </ul>
+        </section>
+
+        <section class="doc-section" id="getConnectionType">
+          <h2><code>getConnectionType()</code></h2>
+          <p>Returns <code>ConnectionType</code> from the Network Information API when available. Use for UX only; do not use as the only check for online/offline. Returns <code>"wifi"</code> | <code>"cellular"</code> | <code>"ethernet"</code> | <code>"none"</code> | <code>"unknown"</code>.</p>
+        </section>
+
+        <section class="doc-section" id="getNetworkQuality">
+          <h2><code>getNetworkQuality()</code></h2>
+          <p>Returns <code>NetworkQuality</code> from the Network Information API when available. Represents connection speed/quality. Returns <code>"slow-2g"</code> | <code>"2g"</code> | <code>"3g"</code> | <code>"4g"</code> | <code>"unknown"</code>.</p>
+        </section>
+
+        <section class="doc-section" id="types">
+          <h2>Types</h2>
+          <ul>
+            <li><code>ConnectionType</code> — <code>"wifi" | "cellular" | "ethernet" | "none" | "unknown"</code></li>
+            <li><code>NetworkQuality</code> — <code>"slow-2g" | "2g" | "3g" | "4g" | "unknown"</code></li>
+            <li><code>ConnectivityResult</code> — <code>{ online, connectionType, networkQuality, latencyMs? }</code></li>
+            <li><code>ConnectivityOptions</code> — <code>{ timeout?, requiredSuccesses?, probeUrls? }</code></li>
+            <li><code>WatchConnectivityOptions</code> — extends <code>ConnectivityOptions</code> with <code>observe</code>, <code>debounceMs</code>, <code>offlineProbeTimeoutMs</code>, <code>onChecking</code>, <code>pollIntervalMs</code>, <code>pollingEnabled</code>, <code>visibilityChange</code></li>
+            <li><code>LatencyOptions</code> — <code>{ timeout?, sampleSize? }</code></li>
+          </ul>
+        </section>
+
+        <p class="footer">
+          <a href="https://github.com/en-atul/netlytics" target="_blank" rel="noopener">GitHub</a>
+          ·
+          <a href="https://www.npmjs.com/package/netlytics" target="_blank" rel="noopener">npm</a>
+        </p>
+      </main>
+      <aside class="on-this-page" aria-label="On this page">
+        <p class="on-this-page-title">ON THIS PAGE</p>
+        <nav>
+          <a href="#checkConnectivity">checkConnectivity()</a>
+          <a href="#watchConnectivity">watchConnectivity()</a>
+          <a href="#measureLatency">measureLatency()</a>
+          <a href="#getConnectionType">getConnectionType()</a>
+          <a href="#getNetworkQuality">getNetworkQuality()</a>
+          <a href="#types">Types</a>
+        </nav>
+        <a href="#" class="on-this-page-back">Back to top</a>
+      </aside>
+      </div>
+    </div>
+    <script type="module" src="/src/api.ts"></script>
+  </body>
+</html>

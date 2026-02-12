@@ -24,6 +24,9 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "index.html"),
+        introduction: path.resolve(__dirname, "introduction.html"),
+        "quick-start": path.resolve(__dirname, "quick-start.html"),
+        api: path.resolve(__dirname, "api.html"),
         usage: path.resolve(__dirname, "usage.html"),
       },
     },

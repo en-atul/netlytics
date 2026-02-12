@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quick Start — Netlytics</title>
+    <link rel="icon" type="image/x-icon" href="/src/logo.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  </head>
+  <body class="usage-body">
+    <div class="usage-layout">
+      <aside class="sidebar" aria-label="Navigation">
+        <a href="/" class="sidebar-logo" aria-label="Netlytics home">
+          <img src="/src/logo.avif" alt="" width="140" height="32" />
+        </a>
+        <nav class="sidebar-nav">
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Start</span>
+            <ul class="sidebar-links">
+              <li><a href="/introduction.html" class="sidebar-link">Introduction</a></li>
+              <li><a href="/quick-start.html" class="sidebar-link active">Quick Start</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Reference</span>
+            <ul class="sidebar-links">
+              <li><a href="/api.html" class="sidebar-link">API</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Usage</span>
+            <ul class="sidebar-links sidebar-links-nested">
+              <li><a href="/usage.html#react" class="sidebar-link">React</a></li>
+              <li><a href="/usage.html#vue" class="sidebar-link">Vue</a></li>
+              <li><a href="/usage.html#angular" class="sidebar-link">Angular</a></li>
+              <li><a href="/usage.html#svelte" class="sidebar-link">Svelte</a></li>
+              <li><a href="/usage.html#js" class="sidebar-link">Vanilla JS</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Demo</span>
+            <ul class="sidebar-links">
+              <li><a href="/" class="sidebar-link">Try it</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+      <main class="usage-page usage-content">
+        <h1>Quick Start</h1>
+        <p class="subtitle">Install Netlytics and run your first connectivity check.</p>
+
+        <section class="doc-section">
+          <h2>Install</h2>
+          <p>Install the package with your preferred package manager:</p>
+          <pre class="doc-pre language-bash"><code class="language-bash"># npm
+npm install netlytics
+
+# bun
+bun add netlytics
+
+# pnpm
+pnpm add netlytics
+
+# yarn
+yarn add netlytics</code></pre>
+        </section>
+
+        <section class="doc-section">
+          <h2>One-time check</h2>
+          <p>Import and call <code>checkConnectivity()</code> to verify internet access with a real HTTP probe:</p>
+          <pre class="doc-pre language-javascript"><code class="language-javascript">import { checkConnectivity } from "netlytics";
+
+const result = await checkConnectivity();
+console.log(result.online);           // true | false
+console.log(result.connectionType);   // "wifi" | "cellular" | "ethernet" | "unknown"
+console.log(result.networkQuality);   // "2g" | "3g" | "4g" | "unknown"
+console.log(result.latencyMs);        // number | undefined</code></pre>
+        </section>
+
+        <section class="doc-section">
+          <h2>Live updates</h2>
+          <p>Use <code>watchConnectivity()</code> to react to connectivity changes. Both online and offline events are validated with a probe:</p>
+          <pre class="doc-pre language-javascript"><code class="language-javascript">import { watchConnectivity } from "netlytics";
+
+const unsubscribe = watchConnectivity(
+  (result) => {
+    console.log(result.online ? "Connected" : "Disconnected");
+  },
+  { observe: true }
+);
+
+// Cleanup when done
+unsubscribe();</code></pre>
+        </section>
+
+        <section class="doc-section">
+          <h2>Measure latency</h2>
+          <p>Get round-trip time (RTT) in milliseconds:</p>
+          <pre class="doc-pre language-javascript"><code class="language-javascript">import { measureLatency } from "netlytics";
+
+const latencyMs = await measureLatency();
+console.log(latencyMs); // number | null</code></pre>
+        </section>
+
+        <section class="doc-section">
+          <h2>Next steps</h2>
+          <ul>
+            <li><a href="/api.html">API Reference</a> — Full options and types.</li>
+            <li><a href="/usage.html">Frameworks</a> — Examples for React, Vue, Angular, Svelte, and vanilla JS.</li>
+            <li><a href="/">Try it</a> — Live demo in the browser.</li>
+          </ul>
+        </section>
+
+        <p class="footer">
+          <a href="https://github.com/en-atul/netlytics" target="_blank" rel="noopener">GitHub</a>
+          ·
+          <a href="https://www.npmjs.com/package/netlytics" target="_blank" rel="noopener">npm</a>
+        </p>
+      </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script type="module" src="/src/quick-start.ts"></script>
+  </body>
+</html>
