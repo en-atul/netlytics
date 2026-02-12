@@ -11,12 +11,49 @@
       href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
   </head>
-  <body>
-    <main class="usage-page">
-      <img src="/src/logo.avif" alt="Netlytics logo" class="logo" />
-      <h1>Usage Examples</h1>
-      <p class="subtitle">See how to use Netlytics in your favorite framework.</p>
+  <body class="usage-body">
+    <div class="usage-layout">
+      <aside class="sidebar" aria-label="Navigation">
+        <a href="/" class="sidebar-logo" aria-label="Netlytics home">
+          <img src="/src/logo.avif" alt="" width="140" height="32" />
+        </a>
+        <nav class="sidebar-nav">
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Start</span>
+            <ul class="sidebar-links">
+              <li><a href="/introduction.html" class="sidebar-link">Introduction</a></li>
+              <li><a href="/quick-start.html" class="sidebar-link">Quick Start</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Reference</span>
+            <ul class="sidebar-links">
+              <li><a href="/api.html" class="sidebar-link">API</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Usage</span>
+            <ul class="sidebar-links sidebar-links-nested">
+              <li><a href="/usage.html#react" class="sidebar-link" data-framework="react">React</a></li>
+              <li><a href="/usage.html#vue" class="sidebar-link" data-framework="vue">Vue</a></li>
+              <li><a href="/usage.html#angular" class="sidebar-link" data-framework="angular">Angular</a></li>
+              <li><a href="/usage.html#svelte" class="sidebar-link" data-framework="svelte">Svelte</a></li>
+              <li><a href="/usage.html#js" class="sidebar-link" data-framework="js">Vanilla JS</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Demo</span>
+            <ul class="sidebar-links">
+              <li><a href="/" class="sidebar-link">Try it</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+      <main class="usage-page usage-content">
+        <h1>Frameworks</h1>
+        <p class="subtitle">Usage examples for React, Vue, Angular, Svelte, and vanilla JavaScript.</p>
       <div class="card usage-section">
         <div class="tabs">
           <button class="tab-btn active" data-tab="react">React</button>
@@ -26,7 +63,7 @@
           <button class="tab-btn" data-tab="js">JS</button>
         </div>
         <div class="tab-content active" data-content="react">
-          <pre><code>import { useEffect, useState } from 'react';
+          <pre class="language-javascript"><code class="language-javascript">import { useEffect, useState } from 'react';
 import { checkConnectivity, watchConnectivity } from 'netlytics';
 
 function App() {
@@ -49,7 +86,7 @@ function App() {
 }</code></pre>
         </div>
         <div class="tab-content" data-content="vue">
-          <pre><code>&lt;script setup&gt;
+          <pre class="language-javascript"><code class="language-javascript">&lt;script setup&gt;
 import { ref, onMounted, onUnmounted } from 'vue';
 import { checkConnectivity, watchConnectivity } from 'netlytics';
 
@@ -76,7 +113,7 @@ onUnmounted(() => {
 &lt;/template&gt;</code></pre>
         </div>
         <div class="tab-content" data-content="angular">
-          <pre><code>import { Component, OnInit, OnDestroy } from '@angular/core';
+          <pre class="language-javascript"><code class="language-javascript">import { Component, OnInit, OnDestroy } from '@angular/core';
 import { checkConnectivity, watchConnectivity } from 'netlytics';
 
 @Component({
@@ -103,7 +140,7 @@ export class AppComponent implements OnInit, OnDestroy {
 }</code></pre>
         </div>
         <div class="tab-content" data-content="svelte">
-          <pre><code>&lt;script&gt;
+          <pre class="language-javascript"><code class="language-javascript">&lt;script&gt;
   import { onMount, onDestroy } from 'svelte';
   import { checkConnectivity, watchConnectivity } from 'netlytics';
 
@@ -128,7 +165,7 @@ export class AppComponent implements OnInit, OnDestroy {
 &lt;div&gt;{online ? 'Online' : 'Offline'}&lt;/div&gt;</code></pre>
         </div>
         <div class="tab-content" data-content="js">
-          <pre><code>import { checkConnectivity, watchConnectivity } from 'netlytics';
+          <pre class="language-javascript"><code class="language-javascript">import { checkConnectivity, watchConnectivity } from 'netlytics';
 
 // One-time check
 const result = await checkConnectivity();
@@ -148,15 +185,15 @@ const unsubscribe = watchConnectivity(
 unsubscribe();</code></pre>
         </div>
       </div>
-      <div class="nav-links">
-        <a href="/" class="btn btn-primary">← Back to Demo</a>
-      </div>
       <p class="footer">
         <a href="https://github.com/en-atul/netlytics" target="_blank" rel="noopener">GitHub</a>
         ·
         <a href="https://www.npmjs.com/package/netlytics" target="_blank" rel="noopener">npm</a>
       </p>
-    </main>
+      </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
     <script type="module" src="/src/usage.ts"></script>
   </body>
 </html>

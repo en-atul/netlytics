@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction — Netlytics</title>
+    <link rel="icon" type="image/x-icon" href="/src/logo.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="usage-body">
+    <div class="usage-layout">
+      <aside class="sidebar" aria-label="Navigation">
+        <a href="/" class="sidebar-logo" aria-label="Netlytics home">
+          <img src="/src/logo.avif" alt="" width="140" height="32" />
+        </a>
+        <nav class="sidebar-nav">
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Start</span>
+            <ul class="sidebar-links">
+              <li><a href="/introduction.html" class="sidebar-link active">Introduction</a></li>
+              <li><a href="/quick-start.html" class="sidebar-link">Quick Start</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Reference</span>
+            <ul class="sidebar-links">
+              <li><a href="/api.html" class="sidebar-link">API</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Usage</span>
+            <ul class="sidebar-links sidebar-links-nested">
+              <li><a href="/usage.html#react" class="sidebar-link">React</a></li>
+              <li><a href="/usage.html#vue" class="sidebar-link">Vue</a></li>
+              <li><a href="/usage.html#angular" class="sidebar-link">Angular</a></li>
+              <li><a href="/usage.html#svelte" class="sidebar-link">Svelte</a></li>
+              <li><a href="/usage.html#js" class="sidebar-link">Vanilla JS</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-section">
+            <span class="sidebar-section-title">Demo</span>
+            <ul class="sidebar-links">
+              <li><a href="/" class="sidebar-link">Try it</a></li>
+            </ul>
+          </div>
+        </nav>
+      </aside>
+      <main class="usage-page usage-content">
+        <h1>Introduction</h1>
+        <p class="subtitle">Reliable internet connectivity, latency, and connection type for web apps — without draining the battery.</p>
+
+        <section class="doc-section">
+          <h2>What is Netlytics?</h2>
+          <p>Netlytics is a lightweight library for detecting internet connectivity, measuring latency, and identifying connection types (WiFi, cellular, ethernet) in web applications. It fixes the common problem where apps report "not connected" even when the user is online.</p>
+          <p>Connectivity is validated with <strong>real HTTP probes</strong> instead of relying on <code>navigator.onLine</code> or the <code>online</code>/<code>offline</code> events alone, which are unreliable across browsers and often don't fire on mobile. The API is designed so you can choose <strong>intentional checks</strong> or <strong>continuous watching</strong> based on your requirements.</p>
+        </section>
+
+        <section class="doc-section">
+          <h2>Design principles</h2>
+          <ul>
+            <li><strong>Performance &amp; battery</strong> — Built with performance in mind to avoid draining device battery. Probes run only when needed; polling is configurable or disableable; and we skip redundant UI updates when connectivity hasn't meaningfully changed.</li>
+            <li><strong>Browser differences</strong> — Safari and WebKit behave differently from Chromium-based browsers (e.g. when and how <code>online</code>/<code>offline</code> fire, Network Information API support). Netlytics accounts for these differences so behavior is consistent where possible.</li>
+            <li><strong>Mobile-first strategy</strong> — On mobile we use a different strategy: event-based detection where available, plus optional polling and visibility-change handling when the user returns to the tab. This ensures connectivity updates are detected even when the browser doesn't fire standard events.</li>
+          </ul>
+        </section>
+
+        <section class="doc-section">
+          <h2>Why Netlytics?</h2>
+          <p>Many connectivity solutions give wrong or inconsistent results because they:</p>
+          <ul>
+            <li>Rely only on <code>navigator.onLine</code> (often <code>true</code> when on any network, even without internet)</li>
+            <li>Use a single endpoint that can fail due to CORS, CDN issues, or that one URL being down</li>
+            <li>Don't handle WiFi vs cellular or tab visibility well, especially on Safari and mobile browsers</li>
+          </ul>
+          <p>Netlytics uses multiple probe URLs, configurable timeouts, and validates both online and offline events with real requests. It never trusts <code>navigator.onLine</code> alone and adapts to desktop vs mobile and to browser quirks.</p>
+        </section>
+
+        <section class="doc-section">
+          <h2>API at a glance</h2>
+          <p>Use the API according to your requirement:</p>
+          <ul>
+            <li><strong>Intentional check</strong> — Call <code>checkConnectivity()</code> when you need a one-off check (e.g. before a critical action, on button click, or on route change). No listeners, no polling; you control when the probe runs.</li>
+            <li><strong>Auto-watch</strong> — Use <code>watchConnectivity()</code> when you need continuous updates (e.g. offline banner, sync status). It subscribes to events and, on mobile, can use optional polling. You can tune <code>pollIntervalMs</code> or set <code>pollingEnabled: false</code> if you only want event-based updates.</li>
+            <li><strong>measureLatency()</strong> — Measure round-trip time (RTT) in ms when you need latency data.</li>
+            <li><strong>getConnectionType()</strong> / <strong>getNetworkQuality()</strong> — Best-effort hints from the Network Information API when available (WiFi, cellular, 2G/3G/4G). Use for UX only; always validate reachability with probes.</li>
+          </ul>
+        </section>
+
+        <section class="doc-section">
+          <h2>What you get</h2>
+          <ul>
+            <li><strong>checkConnectivity(options?)</strong> — One-time probe-based check; returns <code>online</code>, <code>connectionType</code>, <code>networkQuality</code>, and optional <code>latencyMs</code>.</li>
+            <li><strong>watchConnectivity(callback, options?)</strong> — Subscribe to connectivity changes; events are confirmed with a probe. Returns an <code>unsubscribe()</code> function.</li>
+            <li><strong>measureLatency(options?)</strong> — Returns <code>Promise&lt;number | null&gt;</code> (average RTT in ms).</li>
+            <li><strong>getConnectionType()</strong> / <strong>getNetworkQuality()</strong> — Synchronous hints when the Network Information API is available.</li>
+          </ul>
+        </section>
+
+        <p class="footer">
+          <a href="https://github.com/en-atul/netlytics" target="_blank" rel="noopener">GitHub</a>
+          ·
+          <a href="https://www.npmjs.com/package/netlytics" target="_blank" rel="noopener">npm</a>
+        </p>
+      </main>
+    </div>
+    <script type="module" src="/src/docs-common.ts"></script>
+  </body>
+</html>
