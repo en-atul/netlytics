@@ -46,3 +46,14 @@
     display: none;
   }
 }
+
+@layer components {
+  /* Inline code styling - exclude code inside pre blocks */
+  .prose code:not(pre code) {
+    @apply rounded bg-slate-100 px-1.5 py-0.5 font-mono text-sm text-slate-800;
+  }
+  
+  .dark .prose code:not(pre code) {
+    @apply bg-slate-800 text-slate-200;
+  }
+}
