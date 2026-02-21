@@ -3,7 +3,7 @@ import {
   DEFAULT_PROBE_URLS,
   DEFAULT_REQUIRED_SUCCESSES,
 } from "./constants";
-import { getConnectionType, getNetworkQuality } from "./connection-type";
+import { getConnectionType, getNetworkQualityAsync } from "./connection-type";
 import type { ConnectivityOptions, ConnectivityResult } from "./types";
 
 function probeUrl(url: string, timeoutMs: number): Promise<{ ok: boolean; latencyMs?: number }> {
@@ -29,11 +29,6 @@ function probeUrl(url: string, timeoutMs: number): Promise<{ ok: boolean; latenc
     });
 }
 
-/**
- * Checks if the device has reachable internet by probing one or more URLs.
- * Does not rely on navigator.onLine alone (which is unreliable for "real" internet).
- * Works across WiFi and mobile data by validating with actual requests.
- */
 export async function checkConnectivity(
   options: ConnectivityOptions = {}
 ): Promise<ConnectivityResult> {
@@ -44,8 +39,10 @@ export async function checkConnectivity(
     : [...DEFAULT_PROBE_URLS];
 
   const connectionType = getConnectionType();
-  const networkQuality = getNetworkQuality();
-  const results = await Promise.all(urls.map((url) => probeUrl(url, timeout)));
+  const [networkQuality, ...results] = await Promise.all([
+    getNetworkQualityAsync({ qualityProbeUrl: options.qualityProbeUrl }),
+    ...urls.map((url) => probeUrl(url, timeout)),
+  ]);
 
   const succeeded = results.filter((r) => r.ok);
   const online = succeeded.length >= requiredSuccesses;
