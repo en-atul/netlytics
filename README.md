@@ -1,4 +1,4 @@
-![Netlytics cover](assets/netlytics.avif)
+<!-- ![Netlytics cover](assets/netlytics.avif) -->
 
 <div align="center"><strong>Netlytics</strong></div>
 <div align="center">Reliable internet connectivity, latency, and connection type for web apps.<br />Validates with real HTTP probes — never trust navigator.onLine alone.</div>

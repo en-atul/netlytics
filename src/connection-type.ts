@@ -1,9 +1,5 @@
 import type { ConnectionType, NetworkQuality } from "./types";
 
-/**
- * Network Information API (navigator.connection) is not available in all browsers.
- * When available, use it as a hint only — do not use for "internet active" decision.
- */
 interface NetworkInformation {
   effectiveType?: string;
   type?: string;
@@ -29,15 +25,7 @@ function getConnection(): NetworkInformation | undefined {
   return n.connection ?? n.mozConnection ?? n.webkitConnection;
 }
 
-/**
- * Returns the current connection type when the Network Information API is supported.
- * Returns "unknown" when not supported (e.g. many desktop browsers, Safari).
- * Use this for UX (e.g. "Connected via WiFi") — never as the only check for online/offline.
- *
- * Note: On desktop Chrome, effectiveType is often "4g" as a speed/quality hint, not actual
- * cellular. We only report "cellular" when conn.type is explicitly "cellular", so Mac/Wi‑Fi
- * doesn't show "Mobile data".
- */
+/** Connection type from Network Information API when available; "unknown" otherwise (e.g. Safari). */
 export function getConnectionType(): ConnectionType {
   const conn = getConnection();
   if (!conn) return "unknown";
@@ -47,20 +35,13 @@ export function getConnectionType(): ConnectionType {
   if (type === "wifi") return "wifi";
   if (type === "ethernet") return "ethernet";
   if (type === "none") return "none";
-  // Only report "cellular" when type explicitly says so. On desktop Chrome, effectiveType
-  // is often "4g" as a speed/quality hint — don't treat that as "Mobile data".
   if (type === "cellular") return "cellular";
   return "unknown";
 }
 
-/** Default 2MB test file for quality measurement. Hosted in this repo. */
 const DEFAULT_QUALITY_PROBE_URL =
   "https://raw.githubusercontent.com/en-atul/netlytics/main/assets/2mb.pdf";
 
-/**
- * Measures connection quality by fetching a test file (Safari/Firefox fallback when
- * Network Information API is not available). Uses repo-hosted 2mb.pdf by default.
- */
 async function measureConnectionQuality(
   testFileUrl: string = DEFAULT_QUALITY_PROBE_URL
 ): Promise<{ speedMbps: string; quality: NetworkQuality }> {
@@ -94,17 +75,10 @@ export function getNetworkQuality(): NetworkQuality {
 }
 
 export interface GetNetworkQualityAsyncOptions {
-  /**
-   * URL of a test file to fetch for speed measurement (e.g. 2MB image).
-   * Host yourself; used when Network Information API is unavailable (Safari, Firefox). */
   qualityProbeUrl?: string;
 }
 
-/**
- * Returns network quality from the Network Information API when available.
- * When unavailable (Safari, Firefox), measures quality by fetching a test file.
- * Provide qualityProbeUrl (e.g. your own /test-file-2mb.jpg) for the fallback.
- */
+/** Network quality from API when available; otherwise measured via optional qualityProbeUrl fetch. */
 export async function getNetworkQualityAsync(
   options: GetNetworkQualityAsyncOptions = {}
 ): Promise<NetworkQuality> {
