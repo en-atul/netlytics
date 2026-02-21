@@ -1,5 +1,11 @@
 # netlytics
 
+## 0.3.0
+
+### Minor Changes
+
+- 85d3db7: Add getNetworkQualityAsync for network quality with Safari/Firefox fallback via optional probe URL (default: repo-hosted 2mb.pdf).
+
 ## 0.2.0
 
 ### Minor Changes

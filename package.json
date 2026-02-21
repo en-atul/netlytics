@@ -1,6 +1,6 @@
 {
   "name": "netlytics",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Reliable internet connectivity, latency, and connection type for web apps. Works across WiFi, mobile data, and frameworks.",
   "type": "module",
   "main": "./dist/index.cjs",
