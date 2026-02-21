@@ -1,10 +1,10 @@
-/**
- * Netlytics — reliable internet connectivity, latency, and connection type
- * for web apps. Avoids false "offline" results; works across WiFi and mobile data.
- */
-
 export { checkConnectivity } from "./connectivity";
-export { getConnectionType, getNetworkQuality } from "./connection-type";
+export {
+  getConnectionType,
+  getNetworkQuality,
+  getNetworkQualityAsync,
+} from "./connection-type";
+export type { GetNetworkQualityAsyncOptions } from "./connection-type";
 export { measureLatency } from "./latency";
 export { watchConnectivity } from "./watch-connectivity";
 export {

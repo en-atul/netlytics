@@ -34,12 +34,15 @@ describe("checkConnectivity", () => {
   });
 
   test("uses custom probe URLs", async () => {
+    (globalThis as unknown as { navigator: Navigator }).navigator = {
+      connection: { effectiveType: "4g" },
+    } as Navigator;
     const customUrl = "https://my-cdn.com/ping";
     const fetchMock = mock(() => Promise.resolve({ ok: true } as Response));
     (globalThis as unknown as { fetch: (input: RequestInfo | URL) => Promise<Response> }).fetch =
       fetchMock;
     await checkConnectivity({ probeUrls: [customUrl], timeout: 100 });
-    const firstCallUrl = String((fetchMock.mock.calls[0] as unknown as [string] | undefined)?.[0] ?? "");
-    expect(firstCallUrl).toContain("my-cdn.com");
+    const urls = fetchMock.mock.calls.map((c) => String((c as unknown as [string] | undefined)?.[0] ?? ""));
+    expect(urls.some((u) => u.includes("my-cdn.com"))).toBe(true);
   });
 });

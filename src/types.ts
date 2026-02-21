@@ -41,6 +41,8 @@ export interface ConnectivityOptions {
   requiredSuccesses?: number;
   /** Custom probe URLs (must support CORS and be reliable). */
   probeUrls?: string[];
+  /** URL of a test file for quality measurement when Network Information API is unavailable (Safari, Firefox). Optional; defaults to repo-hosted 2mb.pdf. */
+  qualityProbeUrl?: string;
 }
 
 /**
